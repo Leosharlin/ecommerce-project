@@ -32,21 +32,21 @@ function SearchResults() {
   }, [products, term]);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-8">
+    <div className="min-h-screen bg-gray-50 px-3 sm:px-6 py-6 sm:py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-end justify-between gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-6">
           <div>
             <p className="text-xs uppercase tracking-widest text-gray-400">
               Search Results
             </p>
-            <h1 className="text-3xl font-bold text-gray-900 mt-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">
               {term || "Search"}
             </h1>
             <p className="text-sm text-gray-500 mt-1">
               {matches.length} item{matches.length === 1 ? "" : "s"} found
             </p>
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-xs sm:text-sm text-gray-500">
             Browse our top picks tailored to your search.
           </div>
         </div>

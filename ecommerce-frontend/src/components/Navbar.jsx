@@ -36,19 +36,19 @@ function Navbar() {
   const cartCount = useMemo(() => cart.length, [cart]);
 
   return (
-    <nav className="bg-white shadow-md px-8 py-4 flex items-center gap-6 relative z-50">
+    <nav className="bg-white shadow-md px-4 md:px-8 py-3 md:py-4 flex flex-wrap items-center gap-3 md:gap-6 relative z-50">
       {/* Logo / Title -> Home */}
       <h1
         onClick={() => navigate(isAdmin ? "/admin" : "/user")}
-        className="text-3xl font-extrabold text-black cursor-pointer tracking-wide"
+        className="text-2xl md:text-3xl font-extrabold text-black cursor-pointer tracking-wide"
       >
         Leo Store
       </h1>
 
       {/* Centered Search */}
       {!isAdmin && (
-      <div className="flex-1 flex justify-center pl-40">
-        <div className="w-full max-w-md relative">
+      <div className="order-3 md:order-none w-full md:flex-1 flex justify-center md:pl-16">
+        <div className="w-full md:max-w-md relative">
           <div className="flex items-stretch border border-gray-300 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-gray-500">
           <input
             type="text"
@@ -153,7 +153,8 @@ function Navbar() {
 
       {/* Right side links */}
       {isAdmin ? (
-        <div className="ml-auto">
+        <>
+        <div className="ml-auto hidden md:block">
           <div className="relative group">
             <div className="flex items-center gap-2 text-gray-700 cursor-pointer select-none text-sm font-semibold">
               <svg
@@ -205,8 +206,25 @@ function Navbar() {
             </div>
           </div>
         </div>
+        <div className="w-full md:hidden flex items-center gap-2 justify-end">
+          <Link to="/admin" className="px-3 py-1 border border-gray-300 rounded text-sm">
+            Admin
+          </Link>
+          <button
+            className="px-3 py-1 border border-black text-black rounded text-sm"
+            onClick={() => {
+              localStorage.removeItem("token");
+              localStorage.removeItem("role");
+              navigate("/");
+            }}
+          >
+            Logout
+          </button>
+        </div>
+        </>
       ) : (
-      <div className="flex items-center gap-6 text-lg">
+      <>
+      <div className="hidden md:flex items-center gap-6 text-lg">
         <div className="relative group">
           <div className="flex items-center gap-2 text-gray-700 cursor-pointer select-none">
           <svg
@@ -315,6 +333,23 @@ function Navbar() {
           <span>Cart</span>
         </Link>
       </div>
+      <div className="w-full md:hidden flex items-center justify-end gap-3 text-sm">
+        <Link to="/profile" className="px-2 py-1 border border-gray-300 rounded">
+          Profile
+        </Link>
+        <Link to="/wishlist" className="px-2 py-1 border border-gray-300 rounded">
+          Wishlist
+        </Link>
+        <Link to="/cart" className="relative px-2 py-1 border border-gray-300 rounded">
+          Cart
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-2 min-w-[16px] h-[16px] px-1 bg-red-500 text-white text-[10px] leading-[16px] text-center rounded-full font-semibold">
+              {cartCount}
+            </span>
+          )}
+        </Link>
+      </div>
+      </>
       )}
     </nav>
   );

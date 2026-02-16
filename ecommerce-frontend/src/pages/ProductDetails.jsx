@@ -138,6 +138,22 @@ function ProductDetails() {
 
   const stopDragging = () => setIsDragging(false);
 
+  const handleTouchStart = (e) => {
+    if (zoomLevel <= 1) return;
+    const touch = e.touches[0];
+    setIsDragging(true);
+    setDragStart({ x: touch.clientX - pan.x, y: touch.clientY - pan.y });
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging || zoomLevel <= 1) return;
+    const touch = e.touches[0];
+    setPan({
+      x: touch.clientX - dragStart.x,
+      y: touch.clientY - dragStart.y,
+    });
+  };
+
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -147,10 +163,10 @@ function ProductDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-8">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div className="min-h-screen bg-gray-50 px-3 sm:px-6 py-5 sm:py-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-10">
         <div>
-          <div className="bg-white rounded-xl shadow-sm p-4">
+          <div className="bg-white rounded-xl shadow-sm p-3 sm:p-4">
             <div
               className={`relative overflow-hidden rounded-lg border border-gray-100 ${
                 zoomLevel > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : "cursor-default"
@@ -159,11 +175,14 @@ function ProductDetails() {
               onMouseMove={handleMouseMove}
               onMouseUp={stopDragging}
               onMouseLeave={stopDragging}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={stopDragging}
             >
               <img
                 src={selectedImage || product.image}
                 alt={product.title}
-                className="w-full h-[420px] object-cover rounded-lg transition-transform duration-200"
+                className="w-full h-[280px] sm:h-[360px] lg:h-[420px] object-cover rounded-lg transition-transform duration-200"
                 style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoomLevel})` }}
                 loading="lazy"
                 draggable={false}
@@ -197,7 +216,7 @@ function ProductDetails() {
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-3 gap-3">
+          <div className="mt-3 sm:mt-4 grid grid-cols-3 gap-2 sm:gap-3">
             {galleryImages.map((img, i) => (
               <button
                 type="button"
@@ -214,7 +233,7 @@ function ProductDetails() {
                 <img
                   src={img}
                   alt={`${product.title} ${i + 1}`}
-                  className="w-full h-24 object-cover rounded"
+                  className="w-full h-16 sm:h-24 object-cover rounded"
                   loading="lazy"
                 />
               </button>
@@ -222,9 +241,9 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
           <div className="mt-2 flex items-start justify-between gap-4">
-            <h1 className="text-3xl font-bold text-gray-900">{product.title}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{product.title}</h1>
             <button
               type="button"
               onClick={toggleWishlist}
@@ -258,12 +277,12 @@ function ProductDetails() {
             <p className="text-gray-500 mt-3">{description}</p>
           )}
 
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-5 sm:mt-6 flex items-center gap-3 sm:gap-4">
             <span className="text-2xl font-bold text-gray-900">Rs {product.price}</span>
             <span className="text-sm text-gray-600 font-semibold">Inclusive of all taxes</span>
           </div>
 
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
             <button
               className="flex-1 min-h-[40px] bg-white text-gray-900 text-sm font-semibold border-[2px] border-black py-1 px-4 rounded-lg transition-colors hover:bg-black hover:text-white whitespace-normal leading-snug text-center"
               onClick={() => addToCart(product)}

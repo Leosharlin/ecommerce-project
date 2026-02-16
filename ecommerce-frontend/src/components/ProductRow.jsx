@@ -16,11 +16,33 @@ function ProductRow({ title, products }) {
     arrows: true,
     slidesToShow: Math.min(5, Math.max(products.length, 1)),
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: Math.min(3, Math.max(products.length, 1)),
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          slidesToShow: Math.min(2, Math.max(products.length, 1)),
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-200 mb-8">
-      <h2 className="text-lg font-semibold mb-4 text-gray-900">{title}</h2>
+    <div className="bg-white p-3 sm:p-6 rounded-xl border border-gray-200 mb-6 sm:mb-8">
+      <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-900">{title}</h2>
 
       {products.length === 0 ? (
         <div className="border border-dashed border-gray-300 rounded-lg p-6 text-sm text-gray-500">
@@ -33,7 +55,7 @@ function ProductRow({ title, products }) {
           const qty = itemInCart?.qty ?? 0;
 
           return (
-            <div key={p._id} className="px-3">
+            <div key={p._id} className="px-1 sm:px-3">
               <div className="border border-gray-200 p-4 rounded-lg hover:border-gray-400 transition-colors">
                 <div className="cursor-pointer" onClick={() => openProductInNewTab(p._id)}>
                   <img src={p.image} className="h-40 w-full object-cover rounded" loading="lazy" />

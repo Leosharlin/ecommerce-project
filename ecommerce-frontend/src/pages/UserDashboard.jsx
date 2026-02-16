@@ -38,9 +38,9 @@ function UserDashboard() {
   }, [products]);
 
   return (
-    <div className="bg-white min-h-screen p-6">
+    <div className="bg-white min-h-screen px-3 py-4 sm:p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-black text-lg font-semibold mb-6">Discover Products</h1>
+        <h1 className="text-black text-base sm:text-lg font-semibold mb-4 sm:mb-6">Discover Products</h1>
         <ProductRow title="Mouse" products={grouped.mouse} />
         <ProductRow title="Keyboard" products={grouped.keyboard} />
         <ProductRow title="Mouse Pad" products={grouped.mousepad} />
