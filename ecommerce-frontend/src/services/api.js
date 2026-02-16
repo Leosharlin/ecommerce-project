@@ -1,6 +1,8 @@
+const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/$/, "");
+
 // LOGIN
 export const loginUser = async (data) => {
-  const res = await fetch("http://localhost:5000/api/auth/login", {
+  const res = await fetch(`${API_BASE}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -11,7 +13,7 @@ export const loginUser = async (data) => {
 
 // REGISTER
 export const registerUser = async (data) => {
-  const res = await fetch("http://localhost:5000/api/auth/register", {
+  const res = await fetch(`${API_BASE}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -21,12 +23,12 @@ export const registerUser = async (data) => {
 };
 
 export const verifyEmail = async (token) => {
-  const res = await fetch(`http://localhost:5000/api/auth/verify/${token}`);
+  const res = await fetch(`${API_BASE}/api/auth/verify/${token}`);
   return res.json();
 };
 
 export const resendVerificationEmail = async (email) => {
-  const res = await fetch("http://localhost:5000/api/auth/resend-verification", {
+  const res = await fetch(`${API_BASE}/api/auth/resend-verification`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -36,7 +38,7 @@ export const resendVerificationEmail = async (email) => {
 
 // GET PRODUCTS
 export const getProducts = async () => {
-  const res = await fetch("http://localhost:5000/api/products");
+  const res = await fetch(`${API_BASE}/api/products`);
   return res.json();
 };
 
@@ -44,7 +46,7 @@ export const getProducts = async () => {
 export const placeOrder = async (products, token) => {
   const totalAmount = products.reduce((sum, p) => sum + p.price, 0);
 
-  const res = await fetch("http://localhost:5000/api/orders", {
+  const res = await fetch(`${API_BASE}/api/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -58,7 +60,7 @@ export const placeOrder = async (products, token) => {
 
 // GET ORDERS
 export const getMyOrders = async (token) => {
-  const res = await fetch("http://localhost:5000/api/orders/my", {
+  const res = await fetch(`${API_BASE}/api/orders/my`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -68,7 +70,7 @@ export const getMyOrders = async (token) => {
 
 // ADMIN ORDERS
 export const getAllOrders = async (token) => {
-  const res = await fetch("http://localhost:5000/api/orders/all", {
+  const res = await fetch(`${API_BASE}/api/orders/all`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -78,7 +80,7 @@ export const getAllOrders = async (token) => {
 
 // ORDER STATUS
 export const updateOrderStatus = async (id, status, token) => {
-  await fetch(`http://localhost:5000/api/orders/${id}`, {
+  await fetch(`${API_BASE}/api/orders/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -89,7 +91,7 @@ export const updateOrderStatus = async (id, status, token) => {
 };
 
 export const deleteOrder = async (id, token) => {
-  await fetch(`http://localhost:5000/api/orders/${id}`, {
+  await fetch(`${API_BASE}/api/orders/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -99,7 +101,7 @@ export const deleteOrder = async (id, token) => {
 
 // ADMIN ORDERS
 export const deleteProduct = async (id, token) => {
-  await fetch(`http://localhost:5000/api/products/${id}`, {
+  await fetch(`${API_BASE}/api/products/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -108,7 +110,7 @@ export const deleteProduct = async (id, token) => {
 };
 
 export const addProduct = async (data, token) => {
-  const res = await fetch("http://localhost:5000/api/products", {
+  const res = await fetch(`${API_BASE}/api/products`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -120,7 +122,7 @@ export const addProduct = async (data, token) => {
 };
 
 export const updateProduct = async (id, data, token) => {
-  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+  const res = await fetch(`${API_BASE}/api/products/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -137,7 +139,7 @@ export const updateProduct = async (id, data, token) => {
 
 
 export const forgotPassword = async (email) => {
-  const res = await fetch("http://localhost:5000/api/auth/forgot", {
+  const res = await fetch(`${API_BASE}/api/auth/forgot`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -146,7 +148,7 @@ export const forgotPassword = async (email) => {
 };
 
 export const resetPassword = async (token, password) => {
-  const res = await fetch(`http://localhost:5000/api/auth/reset/${token}`, {
+  const res = await fetch(`${API_BASE}/api/auth/reset/${token}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password }),
