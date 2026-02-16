@@ -40,7 +40,7 @@ function Navbar() {
       {/* Logo / Title -> Home */}
       <h1
         onClick={() => navigate(isAdmin ? "/admin" : "/user")}
-        className="text-2xl md:text-3xl font-extrabold text-black cursor-pointer tracking-wide"
+        className="text-xl md:text-3xl font-extrabold text-black cursor-pointer tracking-wide whitespace-nowrap"
       >
         Leo Store
       </h1>

@@ -1,43 +1,42 @@
 import Slider from "react-slick";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 function ProductRow({ title, products }) {
   const { cart, addToCart, decreaseQty } = useContext(CartContext);
   const navigate = useNavigate();
+  const [slidesPerView, setSlidesPerView] = useState(5);
+
+  useEffect(() => {
+    const setByWidth = () => {
+      const w = window.innerWidth;
+      if (w < 520) {
+        setSlidesPerView(1);
+      } else if (w < 900) {
+        setSlidesPerView(2);
+      } else if (w < 1200) {
+        setSlidesPerView(3);
+      } else {
+        setSlidesPerView(5);
+      }
+    };
+
+    setByWidth();
+    window.addEventListener("resize", setByWidth);
+    return () => window.removeEventListener("resize", setByWidth);
+  }, []);
 
   const openProductInNewTab = (id) => {
     window.open(`/product/${id}`, "_blank", "noopener,noreferrer");
   };
 
+  const visibleSlides = Math.min(slidesPerView, Math.max(products.length, 1));
   const settings = {
-    infinite: products.length > 5,
-    arrows: true,
-    slidesToShow: Math.min(5, Math.max(products.length, 1)),
+    infinite: products.length > visibleSlides,
+    arrows: slidesPerView > 2,
+    slidesToShow: visibleSlides,
     slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: Math.min(3, Math.max(products.length, 1)),
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          arrows: false,
-          slidesToShow: Math.min(2, Math.max(products.length, 1)),
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          arrows: false,
-          slidesToShow: 1,
-        },
-      },
-    ],
   };
 
   return (
